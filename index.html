@@ -300,6 +300,8 @@ tbody tr:hover td{background:var(--rh);}
 
 /* MOBILE */
 .hmenu{display:none;width:34px;height:34px;align-items:center;justify-content:center;color:var(--t);margin-right:12px;}
+.sb-back{display:none;width:100%;padding:14px 18px;text-align:left;font-size:13px;font-weight:600;color:var(--t2);border-bottom:1px solid var(--bd);margin-bottom:10px;align-items:center;gap:10px;transition:color .2s;background:transparent;border-top:none;border-left:none;border-right:none;}
+.sb-back:hover{color:var(--t);}
 #sb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:450;display:none;opacity:0;transition:opacity var(--tr);backdrop-filter:blur(2px);}
 #sb-overlay.on{display:block;opacity:1;}
 .sb-mob-nav{display:none;flex-direction:column;padding-bottom:10px;}
@@ -307,6 +309,7 @@ tbody tr:hover td{background:var(--rh);}
   nav{display:none;}
   #sb{position:fixed;top:58px;bottom:0;left:0;z-index:500;transform:translateX(-100%);transition:transform var(--tr);width:260px;}
   #sb.mob{transform:translateX(0);box-shadow:var(--shlg);}
+  .sb-back{display:flex;}
   .husr span{display:none;}
   .hmenu{display:flex;}
   .sb-mob-nav{display:flex;}
@@ -575,6 +578,7 @@ function setSB(prod){
     :[{id:'home-prod',i:iHome(),l:'Home'},{id:'chamados-prod',i:iTkt(),l:'Chamados'},{id:'rel-chamados',i:iRep(),l:'Relatórios Chamados'},{id:'atualizacoes',i:iList(),l:'Atualizações'}];
   sb.innerHTML=`
     <div class="sb-mob-nav">
+      <button class="sb-back" onclick="hideSB()"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Voltar</button>
       <div class="sbph" style="padding-top:0;border:none"><div class="sbsl" style="padding-left:0">Navegação</div></div>
       <button class="sbi ${CP==='erp'?'on':''}" onclick="nav('erp')"><span class="sbic">${iProd()}</span>ERP-Sunsoft</button>
       <button class="sbi ${CP==='relatorios'?'on':''}" onclick="nav('relatorios')"><span class="sbic">${iRep()}</span>Relatórios-Sunsoft</button>
@@ -589,7 +593,7 @@ function setSB(prod){
   sb.classList.add('on');
 }
 
-function openSub(sub){CSub=sub;setSB(CProd);if(sub==='home-prod')rHomeProd();else if(sub==='chamados-prod')rChamados('consultar');else if(sub==='rel-chamados')rChamados('relatorio');else if(sub==='versoes')rVersoes();else if(sub==='estoque')rEstoque();else if(sub==='notas')rNotas();else if(sub==='db')rDB();else if(sub==='atualizacoes')rRelAtu();}
+function openSub(sub){CSub=sub;setSB(CProd);if(sub==='home-prod')rHomeProd();else if(sub==='chamados-prod')rChamados('consultar');else if(sub==='rel-chamados')rChamados('relatorio');else if(sub==='versoes')rVersoes();else if(sub==='estoque')rEstoque();else if(sub==='notas')rNotas();else if(sub==='db')rDB();else if(sub==='atualizacoes')rRelAtu();if(window.innerWidth<=768)hideSB();}
 
 /* ICONS */
 function iHome(){return`<svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h4v-3h2v3h4a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>`;}
@@ -968,6 +972,17 @@ function saveU(){
 
 document.querySelectorAll('.mwrap').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)cm(m.id);}));
 updateTico(ST);
+
+/* SWIPE GESTURES */
+let tX=0,tY=0;
+document.addEventListener('touchstart',e=>{tX=e.touches[0].clientX;tY=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{
+  const dX=e.changedTouches[0].clientX-tX,dY=e.changedTouches[0].clientY-tY;
+  if(Math.abs(dX)>50&&Math.abs(dX)>Math.abs(dY)){
+    if(dX>0&&tX<30&&!document.getElementById('sb').classList.contains('mob'))toggleSB();
+    else if(dX<0&&document.getElementById('sb').classList.contains('mob'))hideSB();
+  }
+},{passive:true});
 </script>
 </body>
 </html>
