@@ -298,7 +298,22 @@ tbody tr:hover td{background:var(--rh);}
 .disc{background:var(--card);border:1px solid var(--bd);border-radius:var(--rl);padding:20px 22px;opacity:.55;display:flex;align-items:flex-start;gap:14px;}
 .dbadge{flex-shrink:0;padding:3px 9px;border-radius:5px;font-size:10.5px;font-weight:700;letter-spacing:.3px;background:rgba(240,64,64,.1);color:var(--bug);white-space:nowrap;margin-top:2px;}
 
-@media(max-width:768px){nav{display:none;}#sb{position:fixed;top:58px;bottom:0;left:0;z-index:500;transform:translateX(-100%);transition:transform var(--tr);}#sb.mob{transform:translateX(0);}.husr span{display:none;}}
+/* MOBILE */
+.hmenu{display:none;width:34px;height:34px;align-items:center;justify-content:center;color:var(--t);margin-right:12px;}
+#sb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:450;display:none;opacity:0;transition:opacity var(--tr);backdrop-filter:blur(2px);}
+#sb-overlay.on{display:block;opacity:1;}
+.sb-mob-nav{display:none;flex-direction:column;padding-bottom:10px;}
+@media(max-width:768px){
+  nav{display:none;}
+  #sb{position:fixed;top:58px;bottom:0;left:0;z-index:500;transform:translateX(-100%);transition:transform var(--tr);width:260px;}
+  #sb.mob{transform:translateX(0);box-shadow:var(--shlg);}
+  .husr span{display:none;}
+  .hmenu{display:flex;}
+  .sb-mob-nav{display:flex;}
+  .hlogo{margin-right:auto;}
+  .tw{overflow-x:auto;}
+  table{min-width:600px;}
+}
 </style>
 </head>
 <body>
@@ -355,6 +370,7 @@ tbody tr:hover td{background:var(--rh);}
 
 <div id="app">
   <header>
+    <button class="hmenu" onclick="toggleSB()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
     <div class="hlogo">SUN <strong>SOFTWARES</strong></div>
     <nav id="hnav">
       <button class="nitem" data-p="erp" onclick="nav('erp')">ERP-Sunsoft</button>
@@ -373,6 +389,7 @@ tbody tr:hover td{background:var(--rh);}
     <aside id="sb"></aside>
     <main id="pa"></main>
   </div>
+  <div id="sb-overlay" onclick="hideSB()"></div>
 </div>
 
 <script>
@@ -540,7 +557,13 @@ function updateTico(t){const p=document.getElementById('tpath');if(!p)return;if(
 
 /* NAV */
 function nav(page){CP=page;document.querySelectorAll('.nitem').forEach(b=>b.classList.toggle('on',b.dataset.p===page));hideSB();if(page==='erp')goP('erp');else if(page==='relatorios')goP('relatorios');else if(page==='usuarios')rUsuarios();}
-function hideSB(){document.getElementById('sb').classList.remove('on','mob');}
+function hideSB(){document.getElementById('sb').classList.remove('on','mob');document.getElementById('sb-overlay').classList.remove('on');}
+function toggleSB(){
+  const sb=document.getElementById('sb'),ov=document.getElementById('sb-overlay');
+  sb.classList.toggle('mob');
+  if(sb.classList.contains('mob'))ov.classList.add('on');
+  else ov.classList.remove('on');
+}
 
 /* SIDEBAR */
 function setSB(prod){
@@ -551,6 +574,13 @@ function setSB(prod){
     ?[{id:'home-prod',i:iHome(),l:'Home'},{id:'chamados-prod',i:iTkt(),l:'Chamados'},{id:'rel-chamados',i:iRep(),l:'Relatórios Chamados'},{id:'versoes',i:iTag(),l:'Versões'},{id:'estoque',i:iBox(),l:'Estoque'},{id:'notas',i:iDoc(),l:'Notas Fiscais'},{id:'db',i:iDb(),l:'DB Manager'}]
     :[{id:'home-prod',i:iHome(),l:'Home'},{id:'chamados-prod',i:iTkt(),l:'Chamados'},{id:'rel-chamados',i:iRep(),l:'Relatórios Chamados'},{id:'atualizacoes',i:iList(),l:'Atualizações'}];
   sb.innerHTML=`
+    <div class="sb-mob-nav">
+      <div class="sbph" style="padding-top:0;border:none"><div class="sbsl" style="padding-left:0">Navegação</div></div>
+      <button class="sbi ${CP==='erp'?'on':''}" onclick="nav('erp')"><span class="sbic">${iProd()}</span>ERP-Sunsoft</button>
+      <button class="sbi ${CP==='relatorios'?'on':''}" onclick="nav('relatorios')"><span class="sbic">${iRep()}</span>Relatórios-Sunsoft</button>
+      <button class="sbi ${CP==='usuarios'?'on':''}" onclick="nav('usuarios')"><span class="sbic">${iUser()}</span>Usuários</button>
+      <div class="sbdv"></div>
+    </div>
     <div class="sbph"><div class="sbpn">${name}</div><div class="sbps">Portal Interno TI</div></div>
     <div class="sbsl">Módulos</div>
     ${subs.map(s=>`<button class="sbi ${CSub===s.id?'on':''}" onclick="openSub('${s.id}')"><span class="sbic">${s.i}</span>${s.l}</button>`).join('')}
@@ -571,6 +601,7 @@ function iDb(){return`<svg width="14" height="14" viewBox="0 0 20 20" fill="curr
 function iList(){return`<svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>`;}
 function iProd(){return`<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z"/></svg>`;}
 function iRep(){return`<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>`;}
+function iUser(){return`<svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>`;}
 
 /* PAGES */
 function rProdutos(){
