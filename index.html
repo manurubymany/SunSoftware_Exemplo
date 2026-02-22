@@ -183,9 +183,9 @@ tbody tr:hover td{background:var(--rh);}
 .bc-y{display:flex;flex-direction:column;justify-content:space-between;padding-bottom:26px;text-align:right;font-size:10px;color:var(--t3);min-width:24px;}
 .bc-canvas{flex:1;position:relative;display:flex;align-items:flex-end;border-bottom:1px solid var(--bd2);padding-bottom:0;}
 .bc-grid{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none;}
-.bc-line{width:100%;height:1px;background:var(--bd2);opacity:0.3;}
+.bc-line{width:100%;border-top:1px dashed var(--bd2);opacity:0.4;height:1px;}
 .bc-col{flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;position:relative;z-index:1;cursor:pointer;padding:0 4px;}
-.bc-bar{width:100%;border-radius:4px 4px 0 0;transition:all .2s;position:relative;min-height:2px;animation:bgrow .8s cubic-bezier(.16,1,.3,1);}
+.bc-bar{width:100%;border-radius:4px 4px 0 0;transition:all .2s;position:relative;min-height:2px;animation:bgrow .8s cubic-bezier(.16,1,.3,1);background-image:linear-gradient(to bottom,rgba(255,255,255,0.15),transparent);}
 @keyframes bgrow{from{height:0}}
 .bc-col:hover .bc-bar{filter:brightness(1.2);transform:scaleX(1.05);}
 .bc-val{font-size:11px;font-weight:700;color:var(--t);margin-bottom:6px;opacity:0;transform:translateY(5px);transition:all .2s;}
@@ -197,7 +197,7 @@ tbody tr:hover td{background:var(--rh);}
 /* PIE CHART */
 .pc-wrap{display:flex;align-items:center;justify-content:center;gap:24px;position:relative;}
 .pc-svg{width:130px;height:130px;transform:rotate(-90deg);overflow:visible;}
-.pc-slice{transition:opacity .2s,transform .2s;cursor:pointer;transform-origin:center;}
+.pc-slice{transition:opacity .2s,transform .2s;cursor:pointer;transform-origin:center;stroke:var(--card);stroke-width:2px;vector-effect:non-scaling-stroke;paint-order:stroke;}
 .pc-slice:hover{opacity:.9;transform:scale(1.06);}
 .pc-center{position:absolute;left:0;width:130px;height:130px;display:flex;flex-direction:column;align-items:center;justify-content:center;pointer-events:none;z-index:10;}
 .pc-total{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;line-height:1;color:var(--t);}
@@ -230,12 +230,11 @@ tbody tr:hover td{background:var(--rh);}
 .np-p{font-size:13.5px;color:var(--t2);line-height:1.55;}
 
 /* PROGRESS */
-.pr-row{margin-bottom:10px;padding:6px 8px;border-radius:6px;transition:transform .2s,background .2s;cursor:default;}
-.pr-row:hover{background:var(--bg2);transform:translateX(4px);}
-.pr-hdr{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;}
-.pr-lbl{color:var(--t2);}
+.pr-row{margin-bottom:12px;padding:0 4px;cursor:default;}
+.pr-hdr{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px;align-items:center;}
+.pr-lbl{color:var(--t2);font-weight:500;}
 .pr-val{color:var(--t);font-weight:600;}
-.pr-trk{height:5px;border-radius:99px;background:var(--bd2);}
+.pr-trk{height:6px;border-radius:99px;background:var(--bd2);overflow:hidden;}
 .pr-fil{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--p),var(--acc));}
 
 /* FORMS */
@@ -300,6 +299,7 @@ tbody tr:hover td{background:var(--rh);}
 
 /* MOBILE */
 .hmenu{display:none;width:34px;height:34px;align-items:center;justify-content:center;color:var(--t);margin-right:12px;}
+.hback{display:none;width:34px;height:34px;align-items:center;justify-content:center;color:var(--t);margin-right:8px;}
 .sb-back{display:none;width:100%;padding:14px 18px;text-align:left;font-size:13px;font-weight:600;color:var(--t2);border-bottom:1px solid var(--bd);margin-bottom:10px;align-items:center;gap:10px;transition:color .2s;background:transparent;border-top:none;border-left:none;border-right:none;}
 .sb-back:hover{color:var(--t);}
 #sb-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:450;display:none;opacity:0;transition:opacity var(--tr);backdrop-filter:blur(2px);}
@@ -312,6 +312,7 @@ tbody tr:hover td{background:var(--rh);}
   .sb-back{display:flex;}
   .husr span{display:none;}
   .hmenu{display:flex;}
+  .hback.active{display:flex;}
   .sb-mob-nav{display:flex;}
   .hlogo{margin-right:auto;}
   .tw{overflow-x:auto;}
@@ -358,7 +359,7 @@ tbody tr:hover td{background:var(--rh);}
 
 <div class="mwrap" id="mv">
   <div class="modal">
-    <div class="mhdr"><span class="mtitle" id="mvt"></span><button class="mclose" onclick="cm('mv')">&#x2715;</button></div>
+    <div class="mhdr"><span class="mtitle" id="mvt"></span><button class="mclose" onclick="cm('mv')"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div>
     <div id="mvc" style="display:flex;flex-direction:column;gap:10px;max-height:60vh;overflow-y:auto"></div>
   </div>
 </div>
@@ -374,6 +375,7 @@ tbody tr:hover td{background:var(--rh);}
 <div id="app">
   <header>
     <button class="hmenu" onclick="toggleSB()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+    <button class="hback" id="hb" onclick="goBack()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
     <div class="hlogo">SUN <strong>SOFTWARES</strong></div>
     <nav id="hnav">
       <button class="nitem" data-p="erp" onclick="nav('erp')">ERP-Sunsoft</button>
@@ -466,11 +468,14 @@ const DB={
 
 /* STATE */
 let CU=null,CP='',CProd='',CSub='home-prod',CTab='abrir',editId=null;
+let HIST=[],isBack=false;
 
 /* UTILS */
 function tag(t){const m={bug:['tbug','Bug'],mel:['tmel','Melhoria'],ajuste:['taj','Ajuste'],hotfix:['tfix','Hotfix'],aj:['taj','Ajuste']};const[c,l]=m[t]||['tinfo',t];return`<span class="tag ${c}">${l}</span>`;}
 function tdot(t){return{bug:'dbug',mel:'dmel',ajuste:'daj',hotfix:'dfix',aj:'daj'}[t]||'daj';}
 function spill(s){const m={estavel:['pg','Estável'],beta:['py','Beta'],hotfix:['pf','Hotfix'],teste:['pu','Em Teste']};const[c,l]=m[s]||['pu',s];return`<span class="pill ${c}">${l}</span>`;}
+function pDate(s){const p=s.split('/');return new Date(p[2],p[1]-1,p[0]);}
+function act(t,a,i){toast(`Ação: ${a} em ${t} (ID/Index: ${i})`);}
 function pcol(p){return p==='Alta'||p==='Crítica'?'var(--bug)':p==='Média'?'var(--aj)':'var(--t3)';}
 function piePath(start,end){
   const x1=Math.cos(2*Math.PI*start),y1=Math.sin(2*Math.PI*start);
@@ -478,7 +483,10 @@ function piePath(start,end){
   return `M 0 0 L ${x1} ${y1} A 1 1 0 ${end-start>.5?1:0} 1 ${x2} ${y2} Z`;
 }
 function chst(s){const c=s==='Finalizado'?'var(--mel)':s==='Em andamento'?'var(--aj)':'var(--bug)';return`<span style="display:inline-flex;align-items:center;gap:5px"><span style="width:6px;height:6px;border-radius:50%;background:${c};display:inline-block"></span>${s}</span>`;}
-function tlItem(d){return`<div class="tli"><div class="tld ${tdot(d.tipo)}"></div><div class="tlc"><div class="tlm"><span class="tdate">${d.date}</span>${tag(d.tipo)}${d.versao?`<span class="tver">${d.versao}</span>`:''}</div><h4>${d.titulo}</h4><p>${d.desc}</p></div></div>`;}
+function tlItem(d,i,t){
+  const b=CU?.role==='Administrador'?`<div style="position:absolute;top:12px;right:12px;display:flex;gap:6px"><button onclick="act('${t}','edit',${i})" style="color:var(--t2)">${iEdit()}</button><button onclick="act('${t}','del',${i})" style="color:var(--bug)">${iTrash()}</button></div>`:'';
+  return`<div class="tli"><div class="tld ${tdot(d.tipo)}"></div><div class="tlc" style="position:relative;padding-right:40px">${b}<div class="tlm"><span class="tdate">${d.date}</span>${tag(d.tipo)}${d.versao?`<span class="tver">${d.versao}</span>`:''}</div><h4>${d.titulo}</h4><p>${d.desc}</p></div></div>`;
+}
 function toast(m){document.getElementById('tmsg').textContent=m;const t=document.getElementById('toast');t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3200);}
 function om(id){document.getElementById(id).classList.add('on');}
 function cm(id){document.getElementById(id).classList.remove('on');}
@@ -535,6 +543,44 @@ function printVersion(v){
   w.document.close();
 }
 
+function printReport(){
+  const jan=DB.relMensal.jan,fev=DB.relMensal.fev,dp=DB.relMensal.depts;
+  const w = window.open('', '_blank');
+  w.document.write(`
+    <html>
+    <head>
+      <title>Relatório Mensal de Chamados</title>
+      <style>
+        body{font-family:'Segoe UI', sans-serif;padding:40px;color:#333;max-width:800px;margin:0 auto;}
+        h1{margin-bottom:10px;border-bottom:2px solid #6A0DAD;padding-bottom:10px;color:#6A0DAD;}
+        h2{margin-top:30px;font-size:18px;border-bottom:1px solid #ccc;padding-bottom:5px;}
+        .meta{margin-bottom:30px;color:#555;font-size:14px;background:#f9f9f9;padding:15px;border-radius:8px;}
+        table{width:100%;border-collapse:collapse;margin-top:15px;}
+        th,td{padding:10px;border:1px solid #ddd;text-align:left;font-size:13px;}
+        th{background:#f5f5f5;font-weight:bold;}
+        .stat-box{display:inline-block;width:45%;margin-bottom:20px;vertical-align:top;}
+        .stat-val{font-size:24px;font-weight:bold;color:#6A0DAD;}
+        .stat-lbl{font-size:12px;color:#666;text-transform:uppercase;}
+      </style>
+    </head>
+    <body>
+      <h1>Relatório de Indicadores de Chamados</h1>
+      <div class="meta">
+        <strong>Período:</strong> Janeiro/2026 - Fevereiro/2026<br>
+        <strong>Gerado em:</strong> ${new Date().toLocaleDateString()}<br>
+        <strong>Solicitante:</strong> ${CU?.name || 'Sistema'}
+      </div>
+      <div style="margin-bottom:30px">
+        <div class="stat-box"><div class="stat-lbl">Total Janeiro</div><div class="stat-val">${jan.bugs+jan.mel+jan.aj}</div><div style="font-size:12px;color:#555">Bugs: ${jan.bugs} | Melh: ${jan.mel} | Aj: ${jan.aj}</div></div>
+        <div class="stat-box"><div class="stat-lbl">Total Fevereiro</div><div class="stat-val">${fev.bugs+fev.mel+fev.aj}</div><div style="font-size:12px;color:#555">Bugs: ${fev.bugs} | Melh: ${fev.mel} | Aj: ${fev.aj}</div></div>
+      </div>
+      <h2>Distribuição por Departamento</h2>
+      <table><thead><tr><th>Departamento</th><th>Chamados</th><th>% do Total</th></tr></thead><tbody>${dp.map(d=>`<tr><td>${d.n}</td><td>${d.v}</td><td>${((d.v/dp.reduce((a,b)=>a+b.v,0))*100).toFixed(1)}%</td></tr>`).join('')}</tbody></table>
+      <div style="margin-top:40px;font-size:11px;color:#999;text-align:center;border-top:1px solid #eee;padding-top:10px;">Gerado pelo Portal Interno TI - SUN SOFTWARES</div>
+      <script>window.print();<\/script></body></html>`);
+  w.document.close();
+}
+
 /* LOGIN */
 function doLogin(){
   const l=document.getElementById('li').value.trim(),p=document.getElementById('lp').value;
@@ -559,7 +605,18 @@ function toggleTheme(){const n=document.documentElement.getAttribute('data-theme
 function updateTico(t){const p=document.getElementById('tpath');if(!p)return;if(t==='dark'){p.setAttribute('d','M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4.22 1.78a1 1 0 011.42 1.42l-.71.7a1 1 0 11-1.42-1.41l.71-.71zM18 9a1 1 0 010 2h-1a1 1 0 010-2h1zm-1.78 5.78a1 1 0 00-1.42 1.42l.7.71a1 1 0 001.42-1.42l-.7-.71zm-12.44 0l-.7.71A1 1 0 005.5 16.9l.71-.71a1 1 0 00-1.42-1.42zM4 10a1 1 0 01-1 1H2a1 1 0 010-2h1a1 1 0 011 1zm1.78-6.22a1 1 0 00-1.42 1.41l.71.71A1 1 0 106.5 4.49l-.71-.71zM10 6a4 4 0 100 8 4 4 0 000-8z');}else{p.setAttribute('d','M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z');}}
 
 /* NAV */
-function nav(page){CP=page;document.querySelectorAll('.nitem').forEach(b=>b.classList.toggle('on',b.dataset.p===page));hideSB();if(page==='erp')goP('erp');else if(page==='relatorios')goP('relatorios');else if(page==='usuarios')rUsuarios();}
+function record(fn,arg){if(isBack)return;const l=HIST[HIST.length-1];if(l&&l.f===fn&&l.a===arg)return;HIST.push({f:fn,a:arg});updHb();}
+function goBack(){if(HIST.length<2)return;HIST.pop();const p=HIST[HIST.length-1];isBack=true;p.f(p.a);isBack=false;updHb();}
+function updHb(){const b=document.getElementById('hb');if(b)b.classList.toggle('active',HIST.length>1);}
+
+function nav(page){
+  record(nav,page);
+  CP=page;
+  document.querySelectorAll('.nitem').forEach(b=>b.classList.toggle('on',b.dataset.p===page));
+  if(page==='erp')goP('erp');
+  else if(page==='relatorios')goP('relatorios');
+  else if(page==='usuarios')rUsuarios();
+}
 function hideSB(){document.getElementById('sb').classList.remove('on','mob');document.getElementById('sb-overlay').classList.remove('on');}
 function toggleSB(){
   const sb=document.getElementById('sb'),ov=document.getElementById('sb-overlay');
@@ -593,7 +650,7 @@ function setSB(prod){
   sb.classList.add('on');
 }
 
-function openSub(sub){CSub=sub;setSB(CProd);if(sub==='home-prod')rHomeProd();else if(sub==='chamados-prod')rChamados('consultar');else if(sub==='rel-chamados')rChamados('relatorio');else if(sub==='versoes')rVersoes();else if(sub==='estoque')rEstoque();else if(sub==='notas')rNotas();else if(sub==='db')rDB();else if(sub==='atualizacoes')rRelAtu();if(window.innerWidth<=768)hideSB();}
+function openSub(sub){record(openSub,sub);CSub=sub;setSB(CProd);if(sub==='home-prod')rHomeProd();else if(sub==='chamados-prod')rChamados('consultar');else if(sub==='rel-chamados')rChamados('relatorio');else if(sub==='versoes')rVersoes();else if(sub==='estoque')rEstoque();else if(sub==='notas')rNotas();else if(sub==='db')rDB();else if(sub==='atualizacoes')rRelAtu();if(window.innerWidth<=768)hideSB();}
 
 /* ICONS */
 function iHome(){return`<svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h4v-3h2v3h4a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>`;}
@@ -606,6 +663,9 @@ function iList(){return`<svg width="14" height="14" viewBox="0 0 20 20" fill="cu
 function iProd(){return`<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M11 17a1 1 0 001.447.894l4-2A1 1 0 0017 15V9.236a1 1 0 00-1.447-.894l-4 2a1 1 0 00-.553.894V17zM15.211 6.276a1 1 0 000-1.788l-4.764-2.382a1 1 0 00-.894 0L4.789 4.488a1 1 0 000 1.788l4.764 2.382a1 1 0 00.894 0l4.764-2.382zM4.447 8.342A1 1 0 003 9.236V15a1 1 0 00.553.894l4 2A1 1 0 009 17v-5.764a1 1 0 00-.553-.894l-4-2z"/></svg>`;}
 function iRep(){return`<svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 0l-2 2a1 1 0 101.414 1.414L8 10.414l1.293 1.293a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>`;}
 function iUser(){return`<svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>`;}
+function iEdit(){return`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>`;}
+function iTrash(){return`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`;}
+function iPlus(){return`<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>`;}
 
 /* PAGES */
 function rProdutos(){
@@ -646,6 +706,7 @@ function rHomeProd(){
   const news = DB.home.noticias;
   const main = news[0];
   const others = news.slice(1);
+  const adm = CU?.role==='Administrador';
 
   setPage(`
     <div class="np-head">
@@ -653,10 +714,14 @@ function rHomeProd(){
         <div class="np-brand">Jornal do Sistema</div>
         <div class="np-title">${name} <span style="font-weight:300;opacity:0.6">News</span></div>
       </div>
-      <div class="np-info"><div class="np-lbl">Edição Atual</div><div class="np-ver">v${ver}</div></div>
+      <div class="np-info">
+        ${adm?`<button class="btn bp" style="margin-bottom:10px" onclick="act('news','add',0)">${iPlus()} Nova Notícia</button>`:''}
+        <div class="np-lbl">Edição Atual</div><div class="np-ver">v${ver}</div>
+      </div>
     </div>
     <div class="np-grid">
       <div class="np-hero">
+        ${adm?`<div style="position:absolute;top:0;right:0;display:flex;gap:6px"><button onclick="act('news','edit',0)" style="color:var(--t2)">${iEdit()}</button><button onclick="act('news','del',0)" style="color:var(--bug)">${iTrash()}</button></div>`:''}
         <div class="np-hero-tag">${main.date} &bull; ${tag(main.tipo)}</div>
         <div class="np-h1">${main.titulo}</div>
         <div class="np-lead">${main.desc}</div>
@@ -664,8 +729,9 @@ function rHomeProd(){
       </div>
       <div class="np-side">
         <div class="np-sec">Outras Manchetes</div>
-        ${others.map(n=>`
-          <div class="np-card">
+        ${others.map((n,i)=>`
+          <div class="np-card" style="position:relative">
+            ${adm?`<div style="position:absolute;top:0;right:0;display:flex;gap:6px"><button onclick="act('news','edit',${i+1})" style="color:var(--t2)">${iEdit()}</button><button onclick="act('news','del',${i+1})" style="color:var(--bug)">${iTrash()}</button></div>`:''}
             <div class="np-hero-tag" style="margin-bottom:8px">${n.date} &bull; ${tag(n.tipo)}</div>
             <div class="np-h2">${n.titulo}</div>
             <div class="np-p">${n.desc}</div>
@@ -676,28 +742,33 @@ function rHomeProd(){
 }
 
 function rEstoque(){
-  setPage(`<div class="phdr"><div class="ptitle">Estoque</div><div class="pdesc">Histórico de atualizações do módulo de estoque.</div></div><div class="dvdr"></div><div class="tl">${DB.erp.estoque.map(tlItem).join('')}</div>`);
+  const adm=CU?.role==='Administrador';
+  setPage(`<div class="phdr"><div class="ptitle">Estoque</div><div class="pdesc">Histórico de atualizações do módulo de estoque.</div></div>${adm?`<div style="margin-bottom:20px;display:flex;justify-content:flex-end"><button class="btn bp" onclick="act('estoque','add',0)">${iPlus()} Novo Item</button></div>`:''}<div class="dvdr"></div><div class="tl">${DB.erp.estoque.map((d,i)=>tlItem(d,i,'estoque')).join('')}</div>`);
 }
 
 function rNotas(){
-  setPage(`<div class="phdr"><div class="ptitle">Notas Fiscais</div><div class="pdesc">Correções fiscais, alterações sistêmicas e atualizações legais.</div></div><div class="dvdr"></div><div class="tl">${DB.erp.notas.map(tlItem).join('')}</div>`);
+  const adm=CU?.role==='Administrador';
+  setPage(`<div class="phdr"><div class="ptitle">Notas Fiscais</div><div class="pdesc">Correções fiscais, alterações sistêmicas e atualizações legais.</div></div>${adm?`<div style="margin-bottom:20px;display:flex;justify-content:flex-end"><button class="btn bp" onclick="act('notas','add',0)">${iPlus()} Nova Nota</button></div>`:''}<div class="dvdr"></div><div class="tl">${DB.erp.notas.map((d,i)=>tlItem(d,i,'notas')).join('')}</div>`);
 }
 
 function rVersoes(){
+  const adm=CU?.role==='Administrador';
   setPage(`
     <div class="phdr"><div class="ptitle">Versões</div><div class="pdesc">Histórico técnico de versões do ERP-Sunsoft.</div></div>
+    ${adm?`<div style="margin-bottom:20px;display:flex;justify-content:flex-end"><button class="btn bp" onclick="act('versoes','add',0)">${iPlus()} Nova Versão</button></div>`:''}
     <div class="dvdr"></div>
     <div class="tw">
       <table>
-        <thead><tr><th>Versão</th><th>Data</th><th>Alterações</th><th>Status</th><th>Exportar</th></tr></thead>
+        <thead><tr><th>Versão</th><th>Data</th><th>Alterações</th><th>Status</th><th>Exportar</th>${adm?'<th>Ações</th>':''}</tr></thead>
         <tbody>
-          ${DB.erp.versoes.map(v=>`
+          ${DB.erp.versoes.map((v,i)=>`
             <tr>
               <td><button class="btn bp" style="padding:4px 12px;height:auto;font-size:12px" onclick="showVersion('${v.v}')">${v.v}</button></td>
               <td class="mono">${v.date}</td>
               <td style="color:var(--t2)">${v.alt}</td>
               <td>${spill(v.status)}</td>
               <td><button class="btn bg" style="padding:4px 10px;font-size:11px" onclick="printVersion('${v.v}')">PDF</button></td>
+              ${adm?`<td><div style="display:flex;gap:6px"><button onclick="act('versoes','edit',${i})" style="color:var(--t2)">${iEdit()}</button><button onclick="act('versoes','del',${i})" style="color:var(--bug)">${iTrash()}</button></div></td>`:''}
             </tr>`).join('')}
         </tbody>
       </table>
@@ -707,6 +778,7 @@ function rVersoes(){
 
 function rDB(){
   const d=DB.erp.db;const mx=Math.max(...d.carga.map(x=>x.v));
+  const adm=CU?.role==='Administrador';
   setPage(`
     <div class="phdr"><div class="ptitle">DB Manager</div><div class="pdesc">Monitoramento de desempenho e histórico do banco de dados.</div></div>
     <div class="dvdr"></div>
@@ -742,20 +814,53 @@ function rDB(){
       </table>
     </div>
     <div class="slbl">Melhorias Implementadas</div>
+    ${adm?`<div style="margin-bottom:16px"><button class="btn bp" onclick="act('db','add',0)">${iPlus()} Nova Melhoria</button></div>`:''}
     <div class="cgrid">
-      ${d.mel.map(m=>`<div class="card cam">${tag('mel')}<h3>${m.titulo}</h3><p>${m.desc}</p></div>`).join('')}
+      ${d.mel.map((m,i)=>`<div class="card cam" style="position:relative">${adm?`<div style="position:absolute;top:12px;right:12px;display:flex;gap:6px"><button onclick="act('db','edit',${i})" style="color:var(--t2)">${iEdit()}</button><button onclick="act('db','del',${i})" style="color:var(--bug)">${iTrash()}</button></div>`:''}${tag('mel')}<h3>${m.titulo}</h3><p>${m.desc}</p></div>`).join('')}
     </div>
   `);
 }
 
 function rRelAtu(){
-  setPage(`<div class="phdr"><div class="ptitle">Atualizações</div><div class="pdesc">Histórico de alterações do Relatórios-Sunsoft.</div></div><div class="dvdr"></div><div class="tl">${DB.relatorios.atu.map(tlItem).join('')}</div>`);
+  const adm=CU?.role==='Administrador';
+  setPage(`<div class="phdr"><div class="ptitle">Atualizações</div><div class="pdesc">Histórico de alterações do Relatórios-Sunsoft.</div></div>${adm?`<div style="margin-bottom:20px;display:flex;justify-content:flex-end"><button class="btn bp" onclick="act('rel','add',0)">${iPlus()} Nova Atualização</button></div>`:''}<div class="dvdr"></div><div class="tl">${DB.relatorios.atu.map((d,i)=>tlItem(d,i,'rel')).join('')}</div>`);
+}
+
+function openChamado(id){
+  const c=DB.chamados.find(x=>x.id===id);
+  if(!c)return;
+  const h=`
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div style="background:var(--bg);padding:20px;border-radius:12px;border:1px solid var(--bd2)">
+        <div style="display:flex;justify-content:space-between;margin-bottom:16px">
+          <div style="font-size:18px;font-weight:700;color:var(--t)">${c.desc}</div>
+          <div class="mono" style="color:var(--t3);font-size:12px">${c.date}</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div><div style="font-size:11px;color:var(--t3);text-transform:uppercase;margin-bottom:5px">Produto</div><div style="font-weight:600;color:var(--t)">${c.prod}</div></div>
+          <div><div style="font-size:11px;color:var(--t3);text-transform:uppercase;margin-bottom:5px">Departamento</div><div style="font-weight:600;color:var(--t)">${c.dept}</div></div>
+          <div><div style="font-size:11px;color:var(--t3);text-transform:uppercase;margin-bottom:5px">Tipo</div><div>${tag(c.tipo)}</div></div>
+          <div><div style="font-size:11px;color:var(--t3);text-transform:uppercase;margin-bottom:5px">Prioridade</div><div style="color:${pcol(c.prior)};font-weight:600">${c.prior}</div></div>
+        </div>
+      </div>
+      <div style="padding:0 4px">
+        <div style="font-size:12px;color:var(--t3);margin-bottom:8px;text-transform:uppercase;font-weight:700">Status do Chamado</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;background:var(--card);padding:14px;border-radius:10px;border:1px solid var(--bd)">
+          ${chst(c.status)}
+          <div style="font-size:12px;color:var(--t2)">Atualizado recentemente</div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('mvt').textContent=`Chamado ${c.id}`;
+  document.getElementById('mvc').innerHTML=h;
+  om('mv');
 }
 
 function genChamadosRows(l){
-  if(!l.length)return `<tr><td colspan="8" style="text-align:center;color:var(--t2);padding:20px">Nenhum chamado encontrado.</td></tr>`;
+  if(!l.length)return `<tr><td colspan="${CU?.role === 'Administrador' ? 9 : 8}" style="text-align:center;color:var(--t2);padding:20px">Nenhum chamado encontrado.</td></tr>`;
   return l.map(c=>`
-    <tr style="cursor:pointer" onclick="toast('Chamado ${c.id} selecionado')">
+    <tr style="cursor:pointer" onclick="openChamado('${c.id}')">
       <td class="mono" style="color:var(--acc);font-weight:600">${c.id}</td>
       <td style="max-width:220px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--t2)">${c.desc}</td>
       <td>${tag(c.tipo)}</td>
@@ -764,6 +869,9 @@ function genChamadosRows(l){
       <td style="color:${pcol(c.prior)};font-size:12px;font-weight:600">${c.prior}</td>
       <td>${chst(c.status)}</td>
       <td class="mono">${c.date}</td>
+      ${CU?.role === 'Administrador' ? `
+        <td><div style="display:flex;gap:6px"><button onclick="act('chamados','edit','${c.id}')" style="color:var(--t2)">${iEdit()}</button><button onclick="act('chamados','del','${c.id}')" style="color:var(--bug)">${iTrash()}</button></div></td>
+      ` : ''}
     </tr>`).join('');
 }
 
@@ -780,6 +888,118 @@ function filterChamados(){
     return mS&&mP&&mT&&mSt;
   });
   document.getElementById('c_tbody').innerHTML=genChamadosRows(res);
+}
+
+function exportCSV(){
+  const mVal=document.getElementById('d_month').value;
+  const pVal=document.getElementById('d_prod').value;
+  
+  const data=DB.chamados.filter(c=>{
+    const dm=c.date.includes('/01/')?'jan':'fev';
+    const mm=mVal==='all'||mVal===dm;
+    const mp=pVal==='all'||c.prod===pVal;
+    return mm&&mp;
+  });
+
+  if(!data.length){toast('Sem dados para exportar.');return;}
+
+  let csv="ID,Descricao,Tipo,Produto,Departamento,Prioridade,Status,Data,Horas\n";
+  data.forEach(c=>{csv+=`${c.id},"${c.desc.replace(/"/g,'""')}",${c.tipo},${c.prod},${c.dept},${c.prior},${c.status},${c.date},${c.hours||0}\n`;});
+  const l=document.createElement("a");l.href="data:text/csv;charset=utf-8,"+encodeURIComponent(csv);l.download="relatorio_chamados.csv";document.body.appendChild(l);l.click();document.body.removeChild(l);
+}
+
+function ensureData(){
+  if(DB.chamados.length>15)return;
+  const dp=['Financeiro','Comercial','Logística','TI','RH'];
+  const pr=['ERP-Sunsoft','Relatórios-Sunsoft'];
+  const tp=['bug','mel','ajuste'];
+  const pi=['Alta','Média','Baixa'];
+  const st=['Aberto','Em andamento','Finalizado'];
+  for(let i=0;i<60;i++){
+    const m=Math.random()>.45?1:0;
+    const d=Math.floor(Math.random()*28)+1;
+    DB.chamados.push({
+      id:`#${2000+i}`,dept:dp[Math.floor(Math.random()*dp.length)],prod:pr[Math.floor(Math.random()*pr.length)],
+      tipo:tp[Math.floor(Math.random()*tp.length)],desc:`Chamado simulado ${i}`,status:st[Math.floor(Math.random()*st.length)],
+      prior:pi[Math.floor(Math.random()*pi.length)],date:`${d<10?'0'+d:d}/0${m+1}/2026`,hours:Math.floor(Math.random()*44)+4
+    });
+  }
+}
+
+function updateDashboard(){
+  const mVal=document.getElementById('d_month').value;
+  const pVal=document.getElementById('d_prod').value;
+  
+  // Filter
+  const data=DB.chamados.filter(c=>{
+    const dm=c.date.includes('/01/')?'jan':'fev';
+    const mm=mVal==='all'||mVal===dm;
+    const mp=pVal==='all'||c.prod===pVal;
+    return mm&&mp;
+  });
+
+  // Stats
+  const total=data.length;
+  const bugs=data.filter(x=>x.tipo==='bug').length;
+  const mel=data.filter(x=>x.tipo==='mel').length;
+  const aj=data.filter(x=>x.tipo==='ajuste').length;
+  const crit=data.filter(x=>x.prior==='Alta'||x.prior==='Crítica').length;
+  const closed=data.filter(x=>x.status==='Finalizado').length;
+  const rate=total?Math.round((closed/total)*100):0;
+  
+  // Depts
+  const depts={};
+  data.forEach(c=>{depts[c.dept]=(depts[c.dept]||0)+1;});
+  const dList=Object.entries(depts).map(([n,v])=>({n,v})).sort((a,b)=>b.v-a.v);
+  const dMax=dList.length?dList[0].v:1;
+
+  // Weeks (Resolution Time)
+  const weeks={};
+  data.forEach(c=>{
+    const dt=pDate(c.date);
+    const wk=`Sem ${Math.ceil((dt.getDate()+(new Date(dt.getFullYear(),dt.getMonth(),1).getDay()))/7)}/${dt.getMonth()+1}`;
+    if(!weeks[wk])weeks[wk]={c:0,h:0};
+    weeks[wk].c++;
+    weeks[wk].h+=(c.hours||24);
+  });
+  const wList=Object.entries(weeks).map(([k,v])=>({k,v:Math.round(v.h/v.c)})).sort((a,b)=>a.k.localeCompare(b.k)); // Avg hours
+  const wMax=wList.length?Math.max(...wList.map(x=>x.v)):1;
+
+  // Render
+  const h=`
+    <div class="cgrid" style="margin-bottom:24px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+      <div class="scard"><div class="slb">Total Selecionado</div><div class="sval">${total}</div><div class="ssub">${bugs} bugs &middot; ${mel} melhorias</div></div>
+      <div class="scard"><div class="slb">Taxa de Resolução</div><div class="sval" style="color:var(--mel)">${rate}%</div><div class="ssub">${closed} finalizados</div></div>
+      <div class="scard"><div class="slb">Chamados Críticos</div><div class="sval" style="color:var(--bug)">${crit}</div><div class="ssub">Prioridade Alta</div></div>
+      <div class="scard"><div class="slb">Tempo Médio (Est.)</div><div class="sval" style="color:var(--acc)">${total?Math.round(data.reduce((a,b)=>a+(b.hours||24),0)/total):0}h</div><div class="ssub">Horas por chamado</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px">
+      <div class="bcc" style="grid-column:1/-1">
+        <div class="bct">Volume Semanal de Resolução (Horas)</div>
+        <div class="bc-wrap" style="height:200px">
+          <div class="bc-y">${[40,30,20,10,0].map(n=>`<div>${Math.round((wMax/40)*n)}h</div>`).join('')}</div>
+          <div class="bc-canvas"><div class="bc-grid">${[1,2,3,4,5].map(()=>`<div class="bc-line"></div>`).join('')}</div>
+            ${wList.map(w=>`<div class="bc-col"><div class="tooltip">${w.v}h Médias</div><div class="bc-val">${w.v}h</div><div class="bc-bar" style="height:${(w.v/wMax)*80}%;background-color:var(--acc)"></div><div class="bc-lbl">${w.k}</div></div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="bcc">
+        <div class="bct">Distribuição por Tipo</div>
+        <div class="bc-wrap">
+          <div class="bc-y">${[100,75,50,25,0].map(n=>`<div>${Math.round(total*(n/100))}</div>`).join('')}</div>
+          <div class="bc-canvas">
+            <div class="bc-grid">${[1,2,3,4,5].map(()=>`<div class="bc-line"></div>`).join('')}</div>
+            ${[['Bugs',bugs,'var(--p)'],['Melhorias',mel,'var(--blue)'],['Ajustes',aj,'var(--lblue)']].map(([l,v,c])=>`<div class="bc-col"><div class="tooltip">${v}</div><div class="bc-val">${v}</div><div class="bc-bar" style="height:${total?(v/total)*100:0}%;background-color:${c}"></div><div class="bc-lbl">${l}</div></div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="bcc"><div class="bct">Por Departamento</div><div style="margin-top:12px;display:flex;flex-direction:column;justify-content:center;height:140px;overflow-y:auto">${dList.map(d=>`<div class="pr-row"><div class="pr-hdr"><span class="pr-lbl">${d.n}</span><span class="pr-val">${d.v}</span></div><div class="pr-trk"><div class="pr-fil" style="width:${(d.v/dMax)*100}%;background:${d.n==='Financeiro'?'var(--p)':d.n==='Comercial'?'var(--blue)':'var(--t2)'}"></div></div></div>`).join('')}</div></div>
+      <div class="bcc"><div class="bct">Prioridade</div><div class="pc-wrap">
+        <div style="position:relative;width:130px;height:130px"><svg class="pc-svg" viewBox="-1.2 -1.2 2.4 2.4">${(()=>{let acc=0;return [['Alta',data.filter(x=>x.prior==='Alta').length,'var(--p)'],['Média',data.filter(x=>x.prior==='Média').length,'var(--blue)'],['Baixa',data.filter(x=>x.prior==='Baixa').length,'var(--lblue)']].map(([l,v,c])=>{if(!v)return '';const p=v/total;const h=`<path d="${piePath(acc,acc+p)}" fill="${c}" class="pc-slice"><title>${l}: ${Math.round(p*100)}%</title></path>`;acc+=p;return h;}).join('');})()}<circle cx="0" cy="0" r="0.6" fill="var(--card)"></circle></svg></div>
+        <div class="pc-leg">${[['Alta','var(--p)'],['Média','var(--blue)'],['Baixa','var(--lblue)']].map(([l,c])=>`<div class="pc-li"><div class="pc-dot" style="background:${c}"></div>${l}</div>`).join('')}</div>
+      </div></div>
+    </div>`;
+  document.getElementById('d_content').innerHTML=h;
 }
 
 function rChamados(tab){
@@ -807,6 +1027,7 @@ function rChamados(tab){
   } else if(tab==='consultar'){
     body=`
       <div class="phdr"><div class="ptitle">Consultar Chamados</div><div class="pdesc">Acompanhe o status e histórico de solicitações.</div></div>
+      ${CU?.role==='Administrador'?`<div style="margin-bottom:20px;display:flex;justify-content:flex-end"><button class="btn bp" onclick="rChamados('abrir')">${iPlus()} Novo Chamado</button></div>`:''}
       <div class="flt">
         <input type="text" id="c_search" class="fc" placeholder="Pesquisar chamados..." style="flex:1;min-width:200px" oninput="filterChamados()">
         <select id="c_prod" class="fc" onchange="filterChamados()"><option value="">Todos os produtos</option><option>ERP-Sunsoft</option><option>Relatórios-Sunsoft</option></select>
@@ -815,72 +1036,28 @@ function rChamados(tab){
       </div>
       <div class="tw">
         <table>
-          <thead><tr><th>ID</th><th>Descrição</th><th>Tipo</th><th>Produto</th><th>Depto.</th><th>Prioridade</th><th>Status</th><th>Data</th></tr></thead>
+          <thead><tr><th>ID</th><th>Descrição</th><th>Tipo</th><th>Produto</th><th>Depto.</th><th>Prioridade</th><th>Status</th><th>Data</th>
+          ${CU?.role === 'Administrador' ? '<th>Ações</th>' : ''}
+          </tr></thead>
           <tbody id="c_tbody">${genChamadosRows(DB.chamados)}</tbody>
         </table>
       </div>`;
   } else {
-    const jan=DB.relMensal.jan,fev=DB.relMensal.fev,dp=DB.relMensal.depts;
-    const mx=Math.max(...dp.map(x=>x.v));
-    const mb=50;
+    ensureData();
     body=`
       <div class="phdr"><div class="ptitle">Relatórios</div><div class="pdesc">Indicadores mensais de chamados por categoria e departamento.</div></div>
-      <div class="flt">
-        <select class="fc"><option>Todos os meses</option><option>Fevereiro 2026</option><option>Janeiro 2026</option></select>
-        <select class="fc"><option>Todos os produtos</option><option>ERP-Sunsoft</option></select>
+      <div class="flt" style="justify-content:space-between">
+        <div style="display:flex;gap:10px"><select id="d_month" class="fc" onchange="updateDashboard()"><option value="all">Todos os meses</option><option value="fev">Fevereiro 2026</option><option value="jan">Janeiro 2026</option></select>
+        <select id="d_prod" class="fc" onchange="updateDashboard()"><option value="all">Todos os produtos</option><option>ERP-Sunsoft</option><option>Relatórios-Sunsoft</option></select></div>
+        <div style="display:flex;gap:10px">
+          <button class="btn bg" onclick="exportCSV()">CSV</button>
+          <button class="btn bg" onclick="printReport()">PDF</button>
+        </div>
       </div>
-      <div class="cgrid" style="margin-bottom:24px">
-        <div class="scard"><div class="slb">Total Janeiro/26</div><div class="sval">${jan.bugs+jan.mel+jan.aj}</div><div class="ssub">${jan.bugs} bugs &middot; ${jan.mel} melhorias &middot; ${jan.aj} ajustes</div></div>
-        <div class="scard"><div class="slb">Total Fevereiro/26</div><div class="sval">${fev.bugs+fev.mel+fev.aj}</div><div class="ssub">${fev.bugs} bugs &middot; ${fev.mel} melhorias &middot; ${fev.aj} ajustes</div></div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
-        <div class="bcc">
-          <div class="bct">Chamados por Categoria — Jan / Fev 2026</div>
-          <div class="bc-wrap">
-            <div class="bc-y">${[50,37,25,12,0].map(n=>`<div>${n}</div>`).join('')}</div>
-            <div class="bc-canvas">
-              <div class="bc-grid">${[1,2,3,4,5].map(()=>`<div class="bc-line"></div>`).join('')}</div>
-              ${[
-                ['Jan Bugs',jan.bugs,'var(--p)'],['Fev Bugs',fev.bugs,'var(--p)'],
-                ['Jan Melh.',jan.mel,'var(--blue)'],['Fev Melh.',fev.mel,'var(--blue)'],
-                ['Jan Aj.',jan.aj,'var(--lblue)'],['Fev Aj.',fev.aj,'var(--lblue)']
-              ].map(([l,v,c],i)=>`
-                <div class="bc-col" style="${(i===2||i===4)?'margin-left:24px':''}">
-                  <div class="tooltip">${v} Chamados</div>
-                  <div class="bc-val">${v}</div>
-                  <div class="bc-bar" style="height:${(v/mb)*100}%;background:${c}"></div>
-                  <div class="bc-lbl">${l}</div>
-                </div>`).join('')}
-            </div>
-          </div>
-        </div>
-        <div class="bcc">
-          <div class="bct">Chamados por Departamento</div>
-          <div style="margin-top:8px">
-            ${dp.map(d=>`<div class="pr-row"><div class="pr-hdr"><span class="pr-lbl">${d.n}</span><span class="pr-val">${d.v}</span></div><div class="pr-trk"><div class="pr-fil" style="width:${(d.v/mx)*100}%"></div></div></div>`).join('')}
-          </div>
-        </div>
-        <div class="bcc">
-          <div class="bct">Distribuição por Prioridade</div>
-          <div class="pc-wrap">
-            <div style="position:relative;width:130px;height:130px">
-              <svg class="pc-svg" viewBox="-1.2 -1.2 2.4 2.4">
-                <path d="${piePath(0,0.25)}" fill="var(--p)" class="pc-slice"><title>Alta: 25%</title></path>
-                <path d="${piePath(0.25,0.65)}" fill="var(--blue)" class="pc-slice"><title>Média: 40%</title></path>
-                <path d="${piePath(0.65,1)}" fill="var(--lblue)" class="pc-slice"><title>Baixa: 35%</title></path>
-                <circle cx="0" cy="0" r="0.6" fill="var(--card)"></circle>
-              </svg>
-            </div>
-            <div class="pc-leg">
-              <div class="pc-li"><div class="pc-dot" style="background:var(--p)"></div>Alta (25%)</div>
-              <div class="pc-li"><div class="pc-dot" style="background:var(--blue)"></div>Média (40%)</div>
-              <div class="pc-li"><div class="pc-dot" style="background:var(--lblue)"></div>Baixa (35%)</div>
-            </div>
-          </div>
-        </div>
-      </div>`;
+      <div id="d_content"></div>`;
   }
   setPage(tabs+body);
+  if(tab!=='abrir'&&tab!=='consultar')updateDashboard();
 }
 
 function prepNew(){
